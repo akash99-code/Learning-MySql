@@ -1,0 +1,86 @@
+1.Table- librarystaff
+:(P)LibID-> name,age,address,degree,email,startTime,stoptime,wages,efficiency,managerID,assignDt 
+:email-> LibID,name,age,address,degree,startTime,stoptime,wages,efficiency,managerID,assignDt
+:degree,efficiency-> wages      *
+
+
+2.Table- log                      
+:(P)logTime-> LibID,leaveTime,hoursWorked
+:logTime,leaveTime-> hoursWorked    *
+
+
+3.Table- membership
+:(P)AadharNo-> date,LibID,ifBanned,planchosen
+
+
+4.Table- plans
+:(P)PlanID->PlanType,validity,initialpayment,fineCharges,NOMem
+:PlanType-> PlanID,validity,initialpayment,fineCharges,NOMem
+
+
+5.Table- members
+:(P)MembID-> Name,Addr,Phone,email,Dues,socialID
+:Phone-> MembID,Name,Addr,email,Dues,socialID
+:email-> MembID,Name,Addr,Phone,Dues,socialID
+:socialID-> MembID,Name,Addr,Phone,email,Dues
+
+
+6.Table- booksid_inposs
+:TextID-> MembID
+
+
+7.Table- issues               #******
+:(P)issueNo-> issueDt, returnDt, MembID, LibID, TextID
+:issueDt-> returnDt
+
+
+8.Table- returns
+:returnNo-> DORet,MembID,LibID,TextID
+
+
+9.Table- finegen        
+:(P)returnNo->PaidBy, latency, amount, ifPaid
+
+
+
+10.Table- update
+:(P)LibID,TextID,Date-> LibID,TextID,Date
+
+
+11.Table-texts
+:(P)TextID-> Name,rackNo,shelfNo,section,Price,popularity,language
+:rackNo,shelfNo,section->TextID,Name,Price,popularity,language
+:Name-> popularity,language    #*********
+
+
+12.Table- books
+:ISBN-> Publisher,Authors,CopyIDS
+:TextID-> ISBN,Publisher,Authors,CopyIDS
+:ISBN, TextID-> ISBN,TextID,Publisher,Authors,CopyIDS
+
+
+
+13.Table-nonissuables
+:TextID-> PubliDt,Distributer
+
+
+14.Table- category
+:TextID,Type->TextID,Type
+
+
+
+15.Table- orderdetails
+:(P)orderID-> Date,Quantity,Price,Discount,TotPrice
+:Quantity,Price,Discount-> TotPrice   *
+
+
+
+16.Table- Vendors
+:(P)VendorName-> PhoneNo, Ratings
+:PhoneNo-> VendorName,Ratings
+
+
+17.Table- order
+:(P)orderID-> LibID,VendorName
+
+

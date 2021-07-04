@@ -1,0 +1,146 @@
+CREATE TABLE `LibraryStaff` (
+	`LibID` VARCHAR(255) NOT NULL,
+	`name` VARCHAR(20) NOT NULL,
+	`age` INT(5) unsigned,
+	`address` TEXT(255),
+	`degree` TEXT,
+	`email` VARCHAR(255),
+	`startTime` TIME,
+	`stoptime` TIME,
+	`wages` INT(5) unsigned,
+	`efficiency` INT(3) unsigned NOT NULL DEFAULT '0',
+	`managerID` VARCHAR(255),
+	`assignDt` DATE,
+	PRIMARY KEY (`LibID`)
+);
+
+CREATE TABLE `LOG` (
+	`logTime` DATETIME NOT NULL,
+	`LibID` VARCHAR(255) NOT NULL,
+	`leaveTime` DATETIME,
+	`hoursWorked` INT,
+	PRIMARY KEY (`logTime`),
+	FOREIGN KEY(LibID) REFERENCES LibraryStaff(LibID)
+);
+
+CREATE TABLE `Membership` (
+	`AadharNo` VARCHAR(255) NOT NULL,
+	`date` DATE NOT NULL,
+	`LibID` VARCHAR(255),
+	`Membercode` SERIAL,
+	`ifBanned` BOOLEAN,
+	`planchosen` SMALLINT(255) NOT NULL,
+	PRIMARY KEY (`AadharNo`),
+	FOREIGN KEY(LibID) REFERENCES LibraryStaff(LibID),
+	FOREIGN KEY(planchosen) REFERENCES Plans(PlanId)
+);
+
+CREATE TABLE `Plans` (
+	`PlanId` SMALLINT(255) NOT NULL AUTO_INCREMENT,
+	`PlanType` VARCHAR(10),
+	`validity` INT(2) unsigned,
+	`initialpayment` INT,
+	`fineCharges` INT,
+	`NOMem` INT unsigned,
+	PRIMARY KEY (`PlanId`)
+);
+
+CREATE TABLE `Members` (
+	`MembId` VARCHAR(255) NOT NULL,
+	`Name` VARCHAR(20) DEFAULT '',
+	`Addr` TEXT(255),
+	`Phone` MEDIUMINT unsigned,
+	`email` VARCHAR(20),
+	`Plan` VARCHAR(255),
+	`Dues` INT NOT NULL DEFAULT '0',
+	PRIMARY KEY (`MembId`)
+);
+CREATE TABLE `BooksID-inPoss` (
+	`MembId` VARCHAR(255) NOT NULL,
+	`BookID` VARCHAR(255),
+	`TextID` VARCHAR(255),
+	FOREIGN KEY(MembID) REFERENCES Members(`MembID`),
+	FOREIGN KEY(BookID) REFERENCES Texts(`TextID`),
+	PRIMARY KEY (`MembId`,`TextID`)
+);
+
+CREATE TABLE `Issues` (
+	`issueNo` SERIAL NOT NULL AUTO_INCREMENT,
+	`issueDt` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`returnDt` DATE,
+	`MembID` VARCHAR(255) NOT NULL,
+	`LibID` VARCHAR(255) DEFAULT '0',
+	`TextID` VARCHAR(255) NOT NULL,
+	FOREIGN KEY(`MembID`) REFERENCES Members(`MembID`),
+	FOREIGN KEY(`LibID`) REFERENCES LibraryStaff(`LibID`),
+	FOREIGN KEY(`TextID`) REFERENCES Texts(`TextID`),
+	PRIMARY KEY (`issueNo`)
+);
+CREATE TABLE `Returns` (
+	`returnNo` SERIAL AUTO_INCREMENT,
+	`DORet` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`MembID` VARCHAR(255) NOT NULL,
+	`LibID` VARCHAR(255) DEFAULT '0',
+	`TextID` VARCHAR(255) NOT NULL,
+	FOREIGN KEY(`MembID`) REFERENCES Members(`MembID`),
+	FOREIGN KEY(`LibID`) REFERENCES LibraryStaff(`LibID`),
+	FOREIGN KEY(`TextID`) REFERENCES Texts(`TextID`),
+	PRIMARY KEY (`returnNo`)
+);
+CREATE TABLE `FineGen` (
+	`PaidBy` VARCHAR(255),
+	`returnNo` SERIAL,
+	`latency` INT unsigned DEFAULT '0',
+	`amount` INT,
+	`ifPaid` BOOLEAN,
+	FOREIGN KEY(`returnNo`) REFERENCES Returns(`returnNo`),
+	PRIMARY KEY (`PaidBy`,`returnNo`)
+);
+
+
+CREATE TABLE `Texts` (
+	`TextID` VARCHAR(255) NOT NULL,
+	`Name` VARCHAR(255),
+	`rackNo` CHAR(15),
+	`shelfNo` CHAR(15),
+	`section` CHAR(15),
+	`Price` INT,
+	`popularity` INT(10),
+	`language` VARCHAR(232),
+	PRIMARY KEY (`TextID`)
+);
+CREATE TABLE `Category` (
+	`Type` VARCHAR(255),
+	`TextID` VARCHAR(255) NOT NULL,
+	FOREIGN KEY(`TextID`) REFERENCES Texts(`TextID`),
+	PRIMARY KEY (`TextID`,`Type`)
+);
+
+CREATE TABLE `Books` (
+	`ISBN` VARCHAR(255) NOT NULL,
+	`TextID` VARCHAR(255) NOT NULL,
+	`Publisher` VARCHAR(255),
+	`Authors` TEXT,
+	`CopyIDs` TEXT,
+	PRIMARY KEY (`TextID`)
+);
+CREATE TABLE `NonIssuables` (
+	`PubliDt` DATETIME NOT NULL,
+	`TextID` VARCHAR(255) NOT NULL,
+	`Distributer` VARCHAR(255),
+	PRIMARY KEY (`TextID`)
+);
+
+CREATE TABLE `Search` (
+	`MembID` VARCHAR(255) NOT NULL,
+	`TextID` VARCHAR(255) NOT NULL,
+	`reportID` SERIAL,
+	PRIMARY KEY (`TextID`,`MembID`)
+);
+
+CREATE TABLE `update` (
+	`LibID` VARCHAR(255) NOT NULL,
+	`TextID` VARCHAR(255) NOT NULL,
+	`Date` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`LibID`,`TextID`)
+);

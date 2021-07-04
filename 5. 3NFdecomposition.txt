@@ -1,0 +1,35 @@
+-------3NF decomposition-----------
+
+
+11)texts {TextID,Name,rackNo,shelfNo,section,Price,popularity,language}
+:(PRI)TextID-> Name,rackNo,shelfNo,section,Price,popularity,language
+:(Transitive dependency) Name-> popularity,language
+
+After Decomposing:~
+11.a)texts {TextID,Name,popularity,language,rackNo,shelfNo,section,Price}
+:
+11.b)textTrends{}
+:
+
+
+7)issues- {issueNo, issueDt, returnDt, MembID, LibID, TextID}              
+<Pri>issueNo-> issueNo, issueDt, returnDt, MembID, LibID, TextID
+:{Transitive Dependency} :issueDt-> returnDt 
+
+After Decomposing:~
+7.a) issues- {issueNo, issueDt, returnDt, MembID, LibID, TextID}
+:issueNo-> issueNo, issueDt, returnDt, MembID, LibID, TextID
+
+7.b) Dt-{}
+:
+
+
+
+
+
+
+
+
+
+
+
