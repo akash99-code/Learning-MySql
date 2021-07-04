@@ -20,6 +20,10 @@ Staffs also maintains overall monetary transactions-track all expenses and incom
 
 <img src='3.%20ER-Diagram.jpg' width=1500/>
 
+**DB Tables**
+
+<img src='database_snapshot.PNG'/>
+
 **DB State**
 
 [Check out the populated data in each table and various queries executed on them, by clicking here.](https://github.com/akash99-code/Learning-MySql/blob/master/7.%20MySql%20Queries.pdf)
