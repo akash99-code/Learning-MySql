@@ -24,7 +24,7 @@ Staffs also maintains overall monetary transactions-track all expenses and incom
 
 <img src='database_snapshot.PNG'/>
 
-[Check out the descriptions of each table and their relationships.](https://github.com/akash99-code/Learning-MySql/blob/master/2.%20Entity%20Descriptions.docx)
+[Check out the descriptions of each table and their relationships.](https://github.com/akash99-code/Learning-MySql/blob/master/2.%20Entity%20Descriptions.pdf)
 
 
 
